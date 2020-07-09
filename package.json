@@ -1,0 +1,14 @@
+{
+  "name": "bootstrap-datetimepicker",
+  "version": "4.0.25",
+  "description": "Bootstrap date and time picker adapted and refactired for Bootsttrap 4 from https://github.com/smalot/bootstrap-datetimepicker",
+  "private": true,
+  "devDependencies": {
+    "clean-css-cli": "latest",
+    "uglify-js": "latest"
+  },
+  "scripts": {
+    "build3": "uglifyjs bootstrap3/js/bootstrap-datetimepicker.js -o bootstrap3/js/bootstrap-datetimepicker.min.js && cleancss -o bootstrap3/css/bootstrap-datetimepicker.min.css bootstrap3/css/bootstrap-datetimepicker.css",
+    "build4": "uglifyjs bootstrap4/js/bootstrap-datetimepicker.js -o bootstrap4/js/bootstrap-datetimepicker.min.js && cleancss -o bootstrap4/css/bootstrap-datetimepicker.min.css bootstrap4/css/bootstrap-datetimepicker.css"
+  }
+}
