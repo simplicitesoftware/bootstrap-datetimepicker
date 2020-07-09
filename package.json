@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-datetimepicker",
-  "version": "4.0.25",
+  "version": "1.0.0",
   "description": "Bootstrap date and time picker adapted and refactired for Bootsttrap 4 from https://github.com/smalot/bootstrap-datetimepicker",
   "private": true,
   "devDependencies": {
