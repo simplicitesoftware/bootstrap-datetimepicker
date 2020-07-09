@@ -8,7 +8,7 @@
     "uglify-js": "latest"
   },
   "scripts": {
-    "build3": "uglifyjs bootstrap3/js/bootstrap-datetimepicker.js -o bootstrap3/js/bootstrap-datetimepicker.min.js && cleancss -o bootstrap3/css/bootstrap-datetimepicker.min.css bootstrap3/css/bootstrap-datetimepicker.css",
-    "build4": "uglifyjs bootstrap4/js/bootstrap-datetimepicker.js -o bootstrap4/js/bootstrap-datetimepicker.min.js && cleancss -o bootstrap4/css/bootstrap-datetimepicker.min.css bootstrap4/css/bootstrap-datetimepicker.css"
+    "build3": "uglifyjs bootstrap3/js/bootstrap-datetimepicker.js --comments -o bootstrap3/js/bootstrap-datetimepicker.min.js && cleancss -o bootstrap3/css/bootstrap-datetimepicker.min.css bootstrap3/css/bootstrap-datetimepicker.css",
+    "build4": "uglifyjs bootstrap4/js/bootstrap-datetimepicker.js --comments -o bootstrap4/js/bootstrap-datetimepicker.min.js && cleancss -o bootstrap4/css/bootstrap-datetimepicker.min.css bootstrap4/css/bootstrap-datetimepicker.css"
   }
 }

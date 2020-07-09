@@ -24,6 +24,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ========================================================= */
+/*
+ * https://github.com/simplicitesoftware/bootstrap-datetimepicker
+ * @version 1.0.0
+ * @license Apache-2.0
+ */
 !function($) {
 
 	// Add ECMA262-5 Array methods if not supported natively (IE8)
