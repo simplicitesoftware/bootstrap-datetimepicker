@@ -6,13 +6,15 @@ that was developped for Bootstrap 3 and which is not maintained anymore by its o
 
 It contains :
 
-- a slightly modified version for Bootstrap 3
-- a rewrite version for Bootstrap 4
+- a slightly modified version for Bootstrap 3 (in the `bootstrap3/` directory)
+- a rewrite version for Bootstrap 4 (in the `bootstrap4/` directory)
 
-Build
------
+Building & publishing
+---------------------
 
-Install:
+This requires that you have node.js installed.
+
+Prepare:
 
 	npm install
 
@@ -23,3 +25,7 @@ Build for **Bootstrap 3**:
 Build for **Bootstrap 4**:
 
 	npm run build4
+
+Publish to NPM registery:
+
+	npm publish
