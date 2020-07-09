@@ -1,8 +1,7 @@
 {
-  "name": "bootstrap-datetimepicker",
+  "name": "simplicite-bootstrap-datetimepicker",
   "version": "1.0.0",
-  "description": "Bootstrap date and time picker adapted and refactired for Bootsttrap 4 from https://github.com/smalot/bootstrap-datetimepicker",
-  "private": true,
+  "description": "Bootstrap date and time picker adapted and refactored for Bootstrap 4 from archived https://github.com/smalot/bootstrap-datetimepicker",
   "devDependencies": {
     "clean-css-cli": "latest",
     "uglify-js": "latest"
