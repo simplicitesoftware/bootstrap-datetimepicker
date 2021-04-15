@@ -1,6 +1,6 @@
 {
   "name": "simplicite-bootstrap-datetimepicker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Bootstrap date and time picker adapted and refactored for Bootstrap 4 from archived https://github.com/smalot/bootstrap-datetimepicker",
   "repository": {
     "type": "git",

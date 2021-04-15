@@ -26,7 +26,7 @@
  * ========================================================= */
 /*
  * https://github.com/simplicitesoftware/bootstrap-datetimepicker
- * @version 1.0.0
+ * @version 1.0.1
  * @license Apache-2.0
  */
  !function($) {
@@ -211,7 +211,7 @@
 			template = template.replace('{rightArrow}', this.icons.rightArrow);
 		}
 		this.picker = $(template)
-			.appendTo(this.isInline ? this.element : this.container) // 'body')
+			.appendTo(this.isInline ? this.element : this.component || this.container)
 			.on({
 				click : $.proxy(this.click, this),
 				mousedown : $.proxy(this.mousedown, this)
