@@ -567,13 +567,13 @@
 				return;
 
 			if (!this.zIndex) {
-				var index_highest = 0;
-				$('div').each(function() {
+				var index_highest = 10000;
+				/*$('div').each(function() {
 					var index_current = parseInt($(this).css('zIndex'), 10);
 					if (index_current > index_highest) {
 						index_highest = index_current;
 					}
-				});
+				});*/
 				this.zIndex = index_highest + 10;
 			}
 
