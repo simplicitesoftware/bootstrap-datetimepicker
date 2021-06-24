@@ -14,6 +14,12 @@ Building & publishing
 
 This requires that you have node.js installed.
 
+Bump the version number in:
+
+- `package.json`
+- `bootstrap3/js/bootstrap-datetimepicker.js`
+- `bootstrap4/js/bootstrap-datetimepicker.js`
+
 Prepare:
 
 	npm install
