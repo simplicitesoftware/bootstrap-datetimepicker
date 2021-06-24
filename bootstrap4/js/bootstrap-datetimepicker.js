@@ -26,7 +26,7 @@
  * ========================================================= */
 /*
  * https://github.com/simplicitesoftware/bootstrap-datetimepicker
- * @version 1.0.3
+ * @version 1.0.4
  * @license Apache-2.0
  */
  !function($) {
@@ -500,13 +500,15 @@
 				return;
 
 			if (!this.zIndex) {
-				var index_highest = 0;
+				// FGE fix time consuming
+				var index_highest = 10000;
+				/*
 				$('div').each(function() {
 					var index_current = parseInt($(this).css('zIndex'), 10);
 					if (index_current > index_highest) {
 						index_highest = index_current;
 					}
-				});
+				});*/
 				this.zIndex = index_highest + 10;
 			}
 
