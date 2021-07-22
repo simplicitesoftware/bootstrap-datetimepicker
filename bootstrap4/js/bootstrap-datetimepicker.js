@@ -26,7 +26,7 @@
  * ========================================================= */
 /*
  * https://github.com/simplicitesoftware/bootstrap-datetimepicker
- * @version 1.0.5
+ * @version 1.0.6
  * @license Apache-2.0
  */
  !function($) {
@@ -751,10 +751,11 @@
 			this.picker.find('.datetimepicker-minutes td').html(html.join(''));
 
 			var currentYear = this.date.getUTCFullYear();
-			var months = this.picker.find('.datetimepicker-months').find('th:eq(1)').text(year).end().find('span').removeClass('active');
+			var months = this.picker.find('.datetimepicker-months')
+				.find('th:eq(1)').text(year).end()
+				.find('.month').removeClass('active');
 			if (currentYear == year) {
-				var offset = months.length - 12;
-				months.eq(this.date.getUTCMonth() + offset).addClass('active');
+				months.eq(this.date.getUTCMonth()).addClass('active');
 			}
 			if (year < startYear || year > endYear) {
 				months.addClass('disabled');
