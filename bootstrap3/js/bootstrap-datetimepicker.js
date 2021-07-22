@@ -26,7 +26,7 @@
  * ========================================================= */
 /*
  * https://github.com/simplicitesoftware/bootstrap-datetimepicker
- * @version 1.0.4
+ * @version 1.0.5
  * @license Apache-2.0
  */
 !function($) {
@@ -681,19 +681,18 @@
 			if (this.date == null || this.viewDate == null) {
 				return;
 			}
-			var d = new Date(this.viewDate), year = d.getUTCFullYear(), month = d
-					.getUTCMonth(), dayMonth = d.getUTCDate(), hours = d
-					.getUTCHours(), minutes = d.getUTCMinutes(), startYear = this.startDate !== -Infinity ? this.startDate
-					.getUTCFullYear()
-					: -Infinity, startMonth = this.startDate !== -Infinity ? this.startDate
-					.getUTCMonth() + 1
-					: -Infinity, endYear = this.endDate !== Infinity ? this.endDate
-					.getUTCFullYear()
-					: Infinity, endMonth = this.endDate !== Infinity ? this.endDate
-					.getUTCMonth() + 1
-					: Infinity, currentDate = (new UTCDate(this.date
-					.getUTCFullYear(), this.date.getUTCMonth(), this.date
-					.getUTCDate())).valueOf(), today = new Date();
+			var d = new Date(this.viewDate),
+				year = d.getUTCFullYear(),
+				month = d.getUTCMonth(),
+				dayMonth = d.getUTCDate(),
+				hours = d.getUTCHours(),
+				minutes = d.getUTCMinutes(),
+				startYear = this.startDate !== -Infinity ? this.startDate.getUTCFullYear() : -Infinity,
+				startMonth = this.startDate !== -Infinity ? this.startDate.getUTCMonth() : -Infinity,
+				endYear = this.endDate !== Infinity ? this.endDate.getUTCFullYear() : Infinity,
+				endMonth = this.endDate !== Infinity ? this.endDate.getUTCMonth() : Infinity,
+				currentDate = (new UTCDate(this.date.getUTCFullYear(), this.date.getUTCMonth(), this.date.getUTCDate())).valueOf(),
+				today = new Date();
 			this.picker.find('.datetimepicker-days thead th:eq(1)').text(
 					dates[this.language].months[month] + ' ' + year);
 			if (this.formatViewType == 'time') {
@@ -873,10 +872,10 @@
 				months.addClass('disabled');
 			}
 			if (year == startYear) {
-				months.slice(0, startMonth + 1).addClass('disabled');
+				months.slice(0, startMonth).addClass('disabled');
 			}
 			if (year == endYear) {
-				months.slice(endMonth).addClass('disabled');
+				months.slice(endMonth+1).addClass('disabled');
 			}
 
 			html = '';
