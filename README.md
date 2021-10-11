@@ -32,6 +32,10 @@ Build for **Bootstrap 4**:
 
 	npm run build4
 
-Publish to NPM registery:
+Build for **Bootstrap 5**:
+
+	npm run build5
+
+Publish to NPM registry:
 
 	npm publish

@@ -1,7 +1,7 @@
 {
   "name": "simplicite-bootstrap-datetimepicker",
-  "version": "1.0.6",
-  "description": "Bootstrap date and time picker adapted and refactored for Bootstrap 4 from archived https://github.com/smalot/bootstrap-datetimepicker",
+  "version": "1.0.7",
+  "description": "Bootstrap date and time picker adapted and refactored for Bootstrap 4 and 5 from archived https://github.com/smalot/bootstrap-datetimepicker",
   "author": "Simplicite Software",
   "repository": {
     "type": "git",
@@ -11,6 +11,7 @@
     "bootstrap",
     "bootstrap3",
     "bootstrap4",
+    "bootstrap5",
     "datepicker",
     "datetimepicker"
   ],
@@ -22,7 +23,8 @@
   },
   "scripts": {
     "build3": "uglifyjs bootstrap3/js/bootstrap-datetimepicker.js --comments -o bootstrap3/js/bootstrap-datetimepicker.min.js && cleancss -o bootstrap3/css/bootstrap-datetimepicker.min.css bootstrap3/css/bootstrap-datetimepicker.css",
-    "build4": "uglifyjs bootstrap4/js/bootstrap-datetimepicker.js --comments -o bootstrap4/js/bootstrap-datetimepicker.min.js && cleancss -o bootstrap4/css/bootstrap-datetimepicker.min.css bootstrap4/css/bootstrap-datetimepicker.css"
+    "build4": "uglifyjs bootstrap4/js/bootstrap-datetimepicker.js --comments -o bootstrap4/js/bootstrap-datetimepicker.min.js && cleancss -o bootstrap4/css/bootstrap-datetimepicker.min.css bootstrap4/css/bootstrap-datetimepicker.css",
+    "build5": "uglifyjs bootstrap5/js/bootstrap-datetimepicker.js --comments -o bootstrap5/js/bootstrap-datetimepicker.min.js && cleancss -o bootstrap5/css/bootstrap-datetimepicker.min.css bootstrap5/css/bootstrap-datetimepicker.css"
   },
   "dependencies": {
     "bootstrap-datetimepicker": "0.0.7"
