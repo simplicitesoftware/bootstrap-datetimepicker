@@ -26,7 +26,7 @@
  * ========================================================= */
 /*
  * https://github.com/simplicitesoftware/bootstrap-datetimepicker
- * @version 1.0.6
+ * @version 1.0.8
  * @license Apache-2.0
  */
  !function($) {
@@ -286,7 +286,7 @@
 					keyup: $.proxy(this.update, this),
 					keydown: $.proxy(this.keydown, this)
 				}]];
-			} 
+			}
 			else if (this.component && this.hasInput) {
 				this._events = [
 				// For components that are not readonly, allow keyboard nav
@@ -784,7 +784,7 @@
 		},
 
 		updateNavArrows : function() {
-			var d = new Date(this.viewDate), 
+			var d = new Date(this.viewDate),
 				year = d.getUTCFullYear(),
 				month = d.getUTCMonth(),
 				day = d.getUTCDate(),
@@ -1189,7 +1189,7 @@
 		moveMonth : function(date, dir) {
 			if (!dir)
 				return date;
-			var new_date = new Date(date.valueOf()), 
+			var new_date = new Date(date.valueOf()),
 				day = new_date.getUTCDate(),
 				month = new_date.getUTCMonth(),
 				mag = Math.abs(dir), new_month, test;
@@ -1838,7 +1838,7 @@
 			+ DPGlobal.footTemplate
 			+ '</table>'
 			+ '</div></div>';
-	
+
 	$.fn.datetimepicker.DPGlobal = DPGlobal;
 	$.fn.datetimepicker.noConflict = function() {
 		$.fn.datetimepicker = old;
