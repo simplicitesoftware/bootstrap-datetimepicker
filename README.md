@@ -1,4 +1,4 @@
-Bootstrap 3 and 4 date time picker
+Bootstrap date time picker
 ==================================
 
 This repo is a fork and adaptation of the code of [this repository](https://github.com/smalot/bootstrap-datetimepicker)
@@ -8,6 +8,7 @@ It contains :
 
 - a slightly modified version for Bootstrap 3 (in the `bootstrap3/` directory)
 - a rewrite version for Bootstrap 4 (in the `bootstrap4/` directory)
+- a rewrite version for Bootstrap 5 (in the `bootstrap5/` directory)
 
 Building & publishing
 ---------------------
@@ -19,6 +20,7 @@ Bump the version number in:
 - `package.json`
 - `bootstrap3/js/bootstrap-datetimepicker.js`
 - `bootstrap4/js/bootstrap-datetimepicker.js`
+- `bootstrap5/js/bootstrap-datetimepicker.js`
 
 Prepare:
 

@@ -8,7 +8,7 @@
  * Improvements by Kenneth Henderick
  * Improvements by CuGBabyBeaR
  * Improvements by Christian Vaas
- * Refactored for bootstrap 4 by Simplicite Software
+ * Refactored for bootstrap 5 by Simplicite Software
  *
  * Initial project URL : http://www.malot.fr/bootstrap-datetimepicker
  *
@@ -26,28 +26,11 @@
  * ========================================================= */
 /*
  * https://github.com/simplicitesoftware/bootstrap-datetimepicker
- * @version 1.0.6
+ * @version 1.0.8
  * @license Apache-2.0
  */
  !function($) {
-	// Add ECMA262-5 Array methods if not supported natively (IE8)
-	if (!('indexOf' in Array.prototype)) {
-		Array.prototype.indexOf = function(find, i) {
-			if (i === undefined)
-				i = 0;
-			if (i < 0)
-				i += this.length;
-			if (i < 0)
-				i = 0;
-			for (var n = this.length; i < n; i++) {
-				if (i in this && this[i] === find)
-					return i;
-			}
-			return -1;
-		}
-	}
-
-	function elementOrParentIsFixed(element) {
+	/*function elementOrParentIsFixed(element) {
 		var $element = $(element);
 		var $checkElements = $element.add($element.parents());
 		var isFixed = false;
@@ -58,18 +41,18 @@
 			}
 		});
 		return isFixed;
-	}
+	}*/
 
 	function UTCDate() {
 		return new Date(Date.UTC.apply(Date, arguments));
 	}
 
-	function UTCToday() {
+	/*function UTCToday() {
 		var today = new Date();
 		return UTCDate(today.getUTCFullYear(), today.getUTCMonth(), today
 			.getUTCDate(), today.getUTCHours(), today.getUTCMinutes(),
 			today.getUTCSeconds(), 0);
-	}
+	}*/
 
 	// Picker object
 	var Datetimepicker = function(element, options) {
@@ -238,22 +221,22 @@
 
 		$(document).on('mousedown', this.clickedOutside);
 
-		this.autoclose = false;
-		if ('autoclose' in options) {
-			this.autoclose = options.autoclose;
-		}
-		else if ('dateAutoclose' in this.element.data()) {
-			this.autoclose = this.element.data('date-autoclose');
-		}
+		this.autoOpen = true;
+		if ('autoOpen' in options)
+			this.autoOpen = options.autoOpen;
+
+		this.autoClose = false;
+		if ('autoClose' in options)
+			this.autoClose = options.autoClose;
+		else if ('dateAutoclose' in this.element.data())
+			this.autoClose = this.element.data('date-autoclose');
 
 		this.keyboardNavigation = true;
-		if ('keyboardNavigation' in options) {
+		if ('keyboardNavigation' in options)
 			this.keyboardNavigation = options.keyboardNavigation;
-		}
-		else if ('dateKeyboardNavigation' in this.element.data()) {
+		else if ('dateKeyboardNavigation' in this.element.data())
 			this.keyboardNavigation = this.element
-					.data('date-keyboard-navigation');
-		}
+				.data('date-keyboard-navigation');
 
 		this.todayBtn = (options.todayBtn || this.element.data('date-today-btn') || false);
 		this.todayHighlight = (options.todayHighlight || this.element.data('date-today-highlight') || false);
@@ -284,7 +267,7 @@
 			this._detachEvents();
 			if (this.isInput) { // single input
 				this._events = [[ this.element, {
-					focus: $.proxy(this.show, this),
+					focus: $.proxy(this.focus, this),
 					keyup: $.proxy(this.update, this),
 					keydown: $.proxy(this.keydown, this)
 				}]];
@@ -293,7 +276,7 @@
 				this._events = [
 				// For components that are not readonly, allow keyboard nav
 				[ this.element.find('input'), {
-					focus: $.proxy(this.show, this),
+					focus: $.proxy(this.focus, this),
 					keyup: $.proxy(this.update, this),
 					keydown: $.proxy(this.keydown, this)
 				}], [ this.component, {
@@ -328,7 +311,23 @@
 			}
 			this._events = [];
 		},
+		
+		// force or inhib next "show" on next focus
+		nextAutoFocus : function(show) {
+			this._nextautofocus = show;
+		},
 
+		focus : function(e) {
+			let b = this._nextautofocus;
+
+			// forced or auto-open and not inhibited?
+			if (b===true || (this.autoOpen && b!==false)) 
+				this.show(e);
+
+			// use once
+			delete this._nextautofocus;
+		},
+		
 		show : function(e) {
 			this.picker.show();
 			this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
@@ -994,9 +993,7 @@
 						this.showMode(0);
 						this._setDate(date);
 						this.fill();
-						if (this.autoclose) {
-							this.hide();
-						}
+						this.autoClose && this.hide();
 						break;
 					}
 					break;
@@ -1074,15 +1071,13 @@
 							var oldViewMode = this.viewMode;
 							this.showMode(-1);
 							this.fill();
-							if (oldViewMode == this.viewMode && this.autoclose) {
+							if (oldViewMode == this.viewMode && this.autoClose) {
 								this.hide();
 							}
 						}
 						else {
 							this.fill();
-							if (this.autoclose) {
-								this.hide();
-							}
+							this.autoClose && this.hide();
 						}
 					}
 					break;
@@ -1124,9 +1119,8 @@
 					var oldViewMode = this.viewMode;
 					this.showMode(-1);
 					this.fill();
-					if (oldViewMode == this.viewMode && this.autoclose) {
+					if (oldViewMode == this.viewMode && this.autoClose)
 						this.hide();
-					}
 					break;
 				}
 			}
@@ -1148,9 +1142,9 @@
 			}
 			if (element) {
 				element.change();
-				if (this.autoclose && (!which || which == 'date')) {
-					// this.hide();
-				}
+				/*if (this.autoClose && (!which || which == 'date')) {
+					this.hide();
+				}*/
 			}
 			this.element.trigger({
 				type : 'changeDate',
@@ -1340,14 +1334,12 @@
 					var oldViewMode = this.viewMode;
 					this.showMode(-1);
 					this.fill();
-					if (oldViewMode == this.viewMode && this.autoclose) {
+					if (oldViewMode == this.viewMode && this.autoClose) {
 						this.hide();
 					}
 				} else {
 					this.fill();
-					if (this.autoclose) {
-						this.hide();
-					}
+					this.autoClose && this.hide();
 				}
 				e.preventDefault();
 				break;
@@ -1386,7 +1378,9 @@
 					this.viewMode = newViewMode;
 				}
 			}
-			this.picker.find('>div').hide().filter('.datetimepicker-' + DPGlobal.modes[this.viewMode].clsName).css('display', 'block');
+			this.picker.find('>div')
+				.hide()
+				.filter('.datetimepicker-' + DPGlobal.modes[this.viewMode].clsName).css('display', 'block');
 			this.updateNavArrows();
 		},
 
