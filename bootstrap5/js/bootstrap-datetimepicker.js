@@ -26,7 +26,7 @@
  * ========================================================= */
 /*
  * https://github.com/simplicitesoftware/bootstrap-datetimepicker
- * @version 1.0.8
+ * @version 1.0.9
  * @license Apache-2.0
  */
  !function($) {
@@ -603,9 +603,9 @@
 		},
 
 		fill : function() {
-			if (this.date == null || this.viewDate == null) {
+			if (this.date == null || this.viewDate == null)
 				return;
-			}
+
 			var d = new Date(this.viewDate),
 				year = d.getUTCFullYear(),
 				month = d.getUTCMonth(),
@@ -618,6 +618,11 @@
 				endMonth = this.endDate !== Infinity ? this.endDate.getUTCMonth() : Infinity,
 				currentDate = (new UTCDate(this.date.getUTCFullYear(), this.date.getUTCMonth(), this.date.getUTCDate())).valueOf(),
 				today = new Date();
+	
+			// Only Minute or Hour view = Time picker must hide the dummy date in header (1900)
+			if (this.maxView<2)
+				this.picker.find('thead .switch').css({ opacity: 0 });
+			
 			this.picker.find('.datetimepicker-days thead th:eq(1)').text(dates[this.language].months[month] + ' ' + year);
 			if (this.formatViewType == 'time') {
 				var formatted = this.getFormattedDate();
@@ -627,12 +632,15 @@
 			else {
 				this.picker.find('.datetimepicker-hours thead th:eq(1)').text(dayMonth + ' ' + dates[this.language].months[month] + ' ' + year);
 				this.picker.find('.datetimepicker-minutes thead th:eq(1)').text(dayMonth + ' ' + dates[this.language].months[month] + ' ' + year);
-			}
+			}				
+
 			this.picker.find('tfoot th.today').text(dates[this.language].today).toggle(this.todayBtn !== false);
 			this.updateNavArrows();
 			this.fillMonths();
 
-			var prevMonth = UTCDate(year, month - 1, 28, 0, 0, 0, 0), day = DPGlobal.getDaysInMonth(prevMonth.getUTCFullYear(), prevMonth.getUTCMonth());
+			var prevMonth = UTCDate(year, month - 1, 28, 0, 0, 0, 0),
+				day = DPGlobal.getDaysInMonth(prevMonth.getUTCFullYear(),
+				prevMonth.getUTCMonth());
 			prevMonth.setUTCDate(day);
 			prevMonth.setUTCDate(day - (prevMonth.getUTCDay() - this.weekStart + 7) % 7);
 			var nextMonth = new Date(prevMonth);
