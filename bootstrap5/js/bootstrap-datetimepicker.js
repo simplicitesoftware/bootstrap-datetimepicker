@@ -26,7 +26,7 @@
  * ========================================================= */
 /*
  * https://github.com/simplicitesoftware/bootstrap-datetimepicker
- * @version 1.0.9
+ * @version 1.1.0
  * @license Apache-2.0
  */
  !function($) {
@@ -620,8 +620,10 @@
 				today = new Date();
 	
 			// Only Minute or Hour view = Time picker must hide the dummy date in header (1900)
-			if (this.maxView<2)
-				this.picker.find('thead .switch').css({ opacity: 0 });
+			if (this.maxView<2) {
+				this.picker.find('.datetimepicker-minutes thead .switch').css({ opacity: 0 }); // keep arrows to change hour
+				this.picker.find('.datetimepicker-hours thead').css({ opacity: 0 }); // no header visible
+			}
 			
 			this.picker.find('.datetimepicker-days thead th:eq(1)').text(dates[this.language].months[month] + ' ' + year);
 			if (this.formatViewType == 'time') {
