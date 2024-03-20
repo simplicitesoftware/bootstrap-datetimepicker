@@ -19,7 +19,7 @@
   "homepage": "https://github.com/simplicitesoftware/bootstrap-datetimepicker",
   "devDependencies": {
     "clean-css-cli": "^5.6.3",
-    "npm-check-updates": "^16.14.15",
+    "npm-check-updates": "^16.14.17",
     "uglify-js": "^3.17.4"
   },
   "scripts": {
