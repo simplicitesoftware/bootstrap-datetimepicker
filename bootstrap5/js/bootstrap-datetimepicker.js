@@ -9,8 +9,7 @@
  * Improvements by CuGBabyBeaR
  * Improvements by Christian Vaas
  * Refactored for bootstrap 5 by Simplicite Software
- *
- * Initial project URL : http://www.malot.fr/bootstrap-datetimepicker
+ * WCAG improvement by Simplicite Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,33 +25,14 @@
  * ========================================================= */
 /*
  * https://github.com/simplicitesoftware/bootstrap-datetimepicker
- * @version 1.1.0
+ * @version 1.2.0
  * @license Apache-2.0
  */
  !function($) {
-	/*function elementOrParentIsFixed(element) {
-		var $element = $(element);
-		var $checkElements = $element.add($element.parents());
-		var isFixed = false;
-		$checkElements.each(function() {
-			if ($(this).css('position') === 'fixed') {
-				isFixed = true;
-				return false;
-			}
-		});
-		return isFixed;
-	}*/
 
 	function UTCDate() {
 		return new Date(Date.UTC.apply(Date, arguments));
 	}
-
-	/*function UTCToday() {
-		var today = new Date();
-		return UTCDate(today.getUTCFullYear(), today.getUTCMonth(), today
-			.getUTCDate(), today.getUTCHours(), today.getUTCMinutes(),
-			today.getUTCSeconds(), 0);
-	}*/
 
 	// Picker object
 	var Datetimepicker = function(element, options) {
@@ -73,15 +53,15 @@
 		this.isInline = false;
 		this.isVisible = false;
 		this.isInput = this.element.is('input');
+		this.aria = dates[this.language].aria;
 
 		this.component = this.element.is('.date')
-			//? this.element.find('.input-group-append .fa-calendar-alt, .input-group-append .fa-calendar, .input-group-append .fa-clock, .input-group-append .fa-th').parent()
 			? this.element.find('.fa-calendar-alt, .fa-calendar, .fa-clock, .fa-th').parent()
 			: false;
 		this.componentReset = this.element.is('.date')
-			//? this.element.find('.input-group-append .fa-times').parent()
 			? this.element.find('.fa-times').parent()
 			: false;
+
 		this.hasInput = this.component && this.element.find('input').length;
 		if (this.component && this.component.length === 0)
 			this.component = false;
@@ -196,7 +176,6 @@
 			template = template.replace('{rightArrow}', this.icons.rightArrow);
 		}
 		this.picker = $(template)
-			.appendTo(this.isInline ? this.element : this.component || this.container)
 			.on({
 				click : $.proxy(this.click, this),
 				mousedown : $.proxy(this.mousedown, this)
@@ -207,12 +186,25 @@
 				this.picker.on({ mousewheel : $.proxy(this.mousewheel, this) });
 		}
 
+		// WCAG
+		this._ariaButton(this.component, "picker");
+		this._ariaButton(this.componentReset, "reset");
+		this._ariaButton(this.picker.find('.prev'), "prev");
+		this._ariaButton(this.picker.find('.switch'));
+		this._ariaButton(this.picker.find('.next'), "next");
+		this._ariaButton(this.picker.find('.today'));
+
 		if (this.isInline) {
-			this.picker.addClass('datetimepicker-inline');
+			this.picker.addClass('datetimepicker-inline').appendTo(this.element);
 		}
 		else {
 			this.picker.addClass('datetimepicker-dropdown-' + this.pickerPosition + ' dropdown-menu');
+			// WCAG Interactive controls must not be nested
+			this.component && this.component.is('[role=button]')
+			? this.component.parent().append(this.picker)
+			: this.picker.appendTo(this.component || this.container);
 		}
+
 		if (this.isRTL) {
 			this.picker.addClass('datetimepicker-rtl');
 			var selector = '.prev i, .next i';
@@ -312,11 +304,31 @@
 			this._events = [];
 		},
 		
+		_ariaButton: function(el, label) {
+			if (!el || !el.length)
+				return;
+			el.attr({
+				role: "button",
+				tabindex: "0"
+			})
+			.on("keyup", function(e) {
+				if (e.which==13) { // ENTER
+					e.stopPropagation();
+					$(this).trigger("click");
+				}						
+			});
+			if (label) {
+				let aria = dates[this.language].aria || dates['en'].aria; // use static 'en' by default
+				el.attr("aria-label", aria[label] || label);
+			}
+		},
+
 		// force or inhib next "show" on next focus
 		nextAutoFocus : function(show) {
 			this._nextautofocus = show;
 		},
 
+		// Open picker on input focus ?
 		focus : function(e) {
 			let b = this._nextautofocus;
 
@@ -328,6 +340,16 @@
 			delete this._nextautofocus;
 		},
 		
+		// WCAG focus the active or first interactive item
+		focusActive : function() {
+			let d = this.picker.find('>:visible');
+			setTimeout(_ => {
+				let e = $('tbody .active',d);
+				e = e.length ? e : $('tbody [role=button]:first',d);
+				e.trigger("focus");
+			}, 50);
+		},
+
 		show : function(e) {
 			this.picker.show();
 			this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
@@ -345,9 +367,11 @@
 				type : 'show',
 				date : this.date
 			});
+			
+			this.focusActive();
 		},
 
-		hide : function(e) {
+		hide : function() {
 			if (!this.isVisible)
 				return;
 			if (this.isInline)
@@ -496,20 +520,11 @@
 			if (this.isInline)
 				return;
 
-			// HACK Fixed position?
 			if (this.picker.css("position")=="fixed")
 				return;
 
 			if (!this.zIndex) {
-				// FGE fix time consuming
 				var index_highest = 10000;
-				/*
-				$('div').each(function() {
-					var index_current = parseInt($(this).css('zIndex'), 10);
-					if (index_current > index_highest) {
-						index_highest = index_current;
-					}
-				});*/
 				this.zIndex = index_highest + 10;
 			}
 
@@ -791,6 +806,10 @@
 				year += 1;
 			}
 			yearCont.html(html);
+			
+			// WCAG role=button + tabindex=0 + ENTER=click
+			this._ariaButton(this.picker.find('span.year, span.month, td.day, span.hour, span.minute'));
+
 			this.place();
 		},
 
@@ -1256,7 +1275,7 @@
 					this.show();
 				return;
 			}
-			var dateChanged = false, dir, day, month, newDate, newViewDate;
+			var dateChanged = false, dir, newDate, newViewDate;
 			switch (e.keyCode) {
 			case 27: // escape
 				this.hide();
@@ -1388,13 +1407,16 @@
 					this.viewMode = newViewMode;
 				}
 			}
-			this.picker.find('>div')
-				.hide()
-				.filter('.datetimepicker-' + DPGlobal.modes[this.viewMode].clsName).css('display', 'block');
+			
+			this.picker.find('>div').hide()
+				.filter('.datetimepicker-' + DPGlobal.modes[this.viewMode].clsName)
+				.css('display', 'block');
+
 			this.updateNavArrows();
+			this.focusActive();
 		},
 
-		reset : function(e) {
+		reset : function() {
 			this._setDate(null, 'date');
 		},
 
@@ -1451,7 +1473,13 @@
 			monthsShort : [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
 			meridiem : [ 'am', 'pm' ],
 			suffix : [ 'st', 'nd', 'rd', 'th' ],
-			today : 'Today'
+			today : 'Today',
+			aria: {
+				prev: "Previous period",
+				next: "Next period",
+				picker: "Date picker",
+				reset: "Reset date"
+			}
 		}
 	};
 

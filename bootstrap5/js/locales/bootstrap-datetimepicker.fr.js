@@ -1,6 +1,5 @@
 /**
  * French translation for bootstrap-datetimepicker
- * Nico Mollet <nico.mollet@gmail.com>
  */
 ;(function($){
 	$.fn.datetimepicker.dates['fr'] = {
@@ -13,6 +12,12 @@
 		suffix: [],
 		meridiem: ["am", "pm"],
 		weekStart: 1,
-		format: "dd/mm/yyyy hh:ii"
+		format: "dd/mm/yyyy hh:ii",
+		aria: {
+			prev: "Période précédente",
+			next: "Période suivante",
+			picker: "Choisir une date",
+			reset: "Effacer la date"
+		}
 	};
 }(jQuery));
