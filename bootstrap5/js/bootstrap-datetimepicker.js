@@ -198,11 +198,23 @@
 			this.picker.addClass('datetimepicker-inline').appendTo(this.element);
 		}
 		else {
-			this.picker.addClass('datetimepicker-dropdown-' + this.pickerPosition + ' dropdown-menu');
-			// WCAG Interactive controls must not be nested
-			this.component && this.component.is('[role=button]')
-			? this.component.parent().append(this.picker)
-			: this.picker.appendTo(this.component || this.container);
+			// BS5 dropdown-menu
+			this.picker.addClass('dropdown-menu datetimepicker-dropdown-' + this.pickerPosition);
+
+			// BS5 dropdown button
+			if (this.component && this.component.is('[role=button]')) {
+				this.component.attr({
+					"data-bs-toggle": "dropdown",
+					"data-bs-display": "static",
+					"aria-haspopup": true,
+					"aria-expanded": false
+				})
+				// WCAG Interactive controls must not be nested = append to parent
+				.parent().append(this.picker);
+			}
+			else {
+				this.picker.appendTo(this.component || this.container);
+			}
 		}
 
 		if (this.isRTL) {
@@ -307,20 +319,122 @@
 		_ariaButton: function(el, label) {
 			if (!el || !el.length)
 				return;
+
 			el.attr({
 				role: "button",
 				tabindex: "0"
-			})
-			.on("keyup", function(e) {
-				if (e.which==13) { // ENTER
-					e.stopPropagation();
-					$(this).trigger("click");
-				}						
 			});
+			
 			if (label) {
 				let aria = dates[this.language].aria || dates['en'].aria; // use static 'en' by default
 				el.attr("aria-label", aria[label] || label);
 			}
+
+			const self = this;
+			el.off("keyup").on("keyup", function(e) {
+				let el = $(this), x;
+				// ESC = close picker
+				if (e.which==27) {
+					e.stopPropagation();
+					e.preventDefault();
+					self.hide();
+				}
+				// ENTER = click = open picker or pick year/month/date/hour/min
+				else if (e.which==13) {
+					e.stopPropagation();
+					e.preventDefault();
+					el.trigger("click");
+				}
+				// Move inside dropdown with arrows
+				else if (e.which==37) { // LEFT
+					e.stopPropagation();
+					e.preventDefault();
+					x = el.prev();
+				}
+				else if (e.which==39) { // RIGHT
+					e.stopPropagation();
+					e.preventDefault();
+					x = el.next();
+				}
+				else if (e.which==38) { // UP
+					e.stopPropagation();
+					e.preventDefault();
+					let p = el.parent(),
+						i = el.index();
+					// Month Year 4 columns
+					if ((el.hasClass("month") || el.hasClass("year")) && i>=4) {
+						x = p.find(">:eq("+(i-4)+")");
+					}
+					// Previous tr = week
+					else if (el.hasClass("day")) {
+						x = p.prev().find(">:eq("+i+")");
+					}
+					// Hours
+					else if (el.hasClass("hour")) {
+						// 24 hours 4 columns
+						if (i>=4 && p.is("td"))
+							x = p.find(">:eq("+(i-4)+")");
+						// hours AM/PM 6 columns
+						else if (i>=6)
+							x = p.find(">:eq("+(i-6)+")");
+						else // PM to AM
+							x = p.prev().find(">:eq("+(i+6)+")");
+					}
+					// Minute
+					else if (el.hasClass("minute")) {
+						// 4 columns (+ 1 top AM/PM)
+						if ((p.is("td") && i>=4) || i>=5)
+							x = p.find(">:eq("+(i-4)+")");
+					}
+					// Bottom today
+					else if (el.hasClass("today")) {
+						x = p.closest("table").find("tbody [role=button]:last");
+					}
+
+					// Default top switch
+					if (!x || !x.length)
+						x = p.closest("table").find("thead .switch");
+				}
+				else if (e.which==40) { // DOWN
+					e.stopPropagation();
+					e.preventDefault();
+					let p = el.parent(),
+						i = el.index();
+					// Month Year 4 columns
+					if ((el.hasClass("month") || el.hasClass("year"))) {
+						x = p.find(">:eq("+(i+4)+")");
+					}
+					// Next tr = week
+					else if (el.hasClass("day")) {
+						x = p.next().find(">:eq("+i+")");
+					}
+					// Hours
+					else if (el.hasClass("hour")) {
+						// 24 hours 4 columns
+						if (p.is("td"))
+							x = p.find(">:eq("+(i+4)+")");
+						// hours AM/PM 6 columns
+						else if (i<6)
+							x = p.find(">:eq("+(i+6)+")");
+						else // AM to PM
+							x = p.next().find(">:eq("+(i-6)+")");
+					}
+					// Minute
+					else if (el.hasClass("minute")) {
+						// 4 columns
+						x = p.find(">:eq("+(i+4)+")");
+					}
+					// Top prev/switch/next
+					else if (el.hasClass("prev") || el.hasClass("switch") || el.hasClass("next")) {
+						x = p.closest("table").find("tbody [role=button]:first");
+					}
+
+					// Default bottom today
+					if (!x || !x.length)
+						x = p.closest("table").find("tfoot .today");
+				}
+				x && x.trigger("focus");
+			});
 		},
 
 		// force or inhib next "show" on next focus
@@ -351,7 +465,8 @@
 		},
 
 		show : function(e) {
-			this.picker.show();
+			// BS5 dropdown needs .show
+			this.picker.show().addClass("show");
 			this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
 			if (this.forceParse)
 				this.update();
@@ -376,7 +491,9 @@
 				return;
 			if (this.isInline)
 				return;
-			this.picker.hide();
+
+			// BS5 dropdown remove .show
+			this.picker.hide().removeClass("show");
 			$(window).off('resize', this.place);
 			this.viewMode = this.startViewMode;
 			this.showMode();
@@ -391,6 +508,9 @@
 				type : 'hide',
 				date : this.date
 			});
+			
+			// WCAG return the focus to dropdown button
+			this.component && this.component.trigger("focus");
 		},
 
 		remove : function() {
@@ -538,7 +658,7 @@
 
 			if (this.component) {
 				offset = this.component.offset();
-				left = offset.left;
+				left = offset.left + 5;
 				if (this.pickerPosition == 'bottom-left' || this.pickerPosition == 'top-left')
 					left += this.component.outerWidth() - this.picker.outerWidth();
 			}
@@ -554,7 +674,7 @@
 			if (this.pickerPosition == 'top-left' || this.pickerPosition == 'top-right')
 				top = offset.top - this.picker.outerHeight();
 			else
-				top = offset.top + this.height;
+				top = offset.top + this.height + 2;
 
 			top = top - containerOffset.top;
 			left = left - containerOffset.left;
