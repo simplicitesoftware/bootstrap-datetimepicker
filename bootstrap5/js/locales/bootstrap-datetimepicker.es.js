@@ -1,6 +1,5 @@
 /**
  * Spanish translation for bootstrap-datetimepicker
- * Bruno Bonamin <bruno.bonamin@gmail.com>
  */
 ;(function($){
 	$.fn.datetimepicker.dates['es'] = {
@@ -11,6 +10,12 @@
 		monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
 		today: "Hoy",
 		suffix: [],
-		meridiem: []
+		meridiem: [],
+		aria: {
+			prev: "Periodo anterior",
+			next: "Próximo período",
+			picker: "Elige una fecha",
+			reset: "Borrar fecha"
+		}
 	};
 }(jQuery));
