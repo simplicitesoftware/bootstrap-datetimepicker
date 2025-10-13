@@ -10,6 +10,7 @@
 		months: ["Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"],
 		monthsShort: ["Jan", "Feb", "Már", "Ápr", "Máj", "Jún", "Júl", "Aug", "Sze", "Okt", "Nov", "Dec"],
 		today: "Ma",
+		now: "Most",
 		suffix: [],
 		meridiem: [],
 		weekStart: 1

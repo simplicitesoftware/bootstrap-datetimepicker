@@ -25,7 +25,7 @@
  * ========================================================= */
 /*
  * https://github.com/simplicitesoftware/bootstrap-datetimepicker
- * @version 1.2.0
+ * @version 1.2.1
  * @license Apache-2.0
  */
  !function($) {
@@ -771,7 +771,20 @@
 				this.picker.find('.datetimepicker-minutes thead th:eq(1)').text(dayMonth + ' ' + dates[this.language].months[month] + ' ' + year);
 			}				
 
-			this.picker.find('tfoot th.today').text(dates[this.language].today).toggle(this.todayBtn !== false);
+			// Check if format contains time components to determine button text
+			var hasTimeComponents = false;
+			if (this.format && this.format.parts) {
+				for (var i = 0; i < this.format.parts.length; i++) {
+					var part = this.format.parts[i];
+					if (part.match(/^(hh?|HH?|ii?|ss?|p|P)$/)) {
+						hasTimeComponents = true;
+						break;
+					}
+				}
+			}
+			
+			var todayText = hasTimeComponents ? dates[this.language].now : dates[this.language].today;
+			this.picker.find('tfoot th.today').text(todayText).toggle(this.todayBtn !== false);
 			this.updateNavArrows();
 			this.fillMonths();
 
@@ -1594,6 +1607,7 @@
 			meridiem : [ 'am', 'pm' ],
 			suffix : [ 'st', 'nd', 'rd', 'th' ],
 			today : 'Today',
+			now : 'Now',
 			aria: {
 				prev: "Previous period",
 				next: "Next period",

@@ -10,6 +10,7 @@
 		months: ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"],
 		monthsShort: ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"],
 		today: "I Dag",
+		now: "Nu",
 		suffix: [],
 		meridiem: []
 	};

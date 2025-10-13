@@ -10,6 +10,7 @@
 		months:      	["Jaanuar", "Veebruar", "Märts", "Aprill", "Mai", "Juuni", "Juuli", "August", "September", "Oktoober", "November", "Detsember"],
 		monthsShort: 	["Jaan", "Veebr", "Märts", "Apr", "Mai", "Juuni", "Juuli", "Aug", "Sept", "Okt", "Nov", "Dets"],
 		today:       	"Täna",
+		now:       		"Praegu",
 		suffix:     	[],
 		meridiem: 		[],
 		weekStart: 		1,

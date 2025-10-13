@@ -12,6 +12,7 @@
 		monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
 		suffix: [],
 		meridiem: ["am","pm"],
-		today: "Hoje"
+		today: "Hoje",
+		now: "Agora"
 	};
 }(jQuery));

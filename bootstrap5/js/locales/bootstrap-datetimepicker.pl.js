@@ -10,6 +10,7 @@ $.fn.datetimepicker.dates['pl'] = {
         months: ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"],
         monthsShort: ["Sty", "Lu", "Mar", "Kw", "Maj", "Cze", "Lip", "Sie", "Wrz", "Pa", "Lis", "Gru"],
         today: "Dzisiaj",
+        now: "Teraz",
 		suffix: [],
 		meridiem: [],
         weekStart: 1

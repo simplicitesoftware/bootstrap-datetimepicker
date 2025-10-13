@@ -11,6 +11,7 @@
 		months: ["Január", "Február", "Marec", "Apríl", "Máj", "Jún", "Júl", "August", "September", "Október", "November", "December"],
 		monthsShort: ["Jan", "Feb", "Mar", "Apr", "Máj", "Jún", "Júl", "Aug", "Sep", "Okt", "Nov", "Dec"],
 		today: "Dnes",
+		now: "Teraz",
 		suffix: [],
 		meridiem: []
 	};

@@ -13,5 +13,6 @@
 		suffix: [],
 		meridiem: ["오전", "오후"],
         today: "오늘",
+        now: "지금",
 	};
 }(jQuery));
