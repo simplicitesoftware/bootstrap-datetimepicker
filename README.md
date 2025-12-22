@@ -24,20 +24,30 @@ Bump the version number in:
 
 Prepare:
 
-	npm install
+```shell
+npm install
+```
 
 Build for **Bootstrap 3**:
 
-	npm run build3
+```shell
+npm run build3
+```
 
 Build for **Bootstrap 4**:
 
-	npm run build4
+```shell
+npm run build4
+```
 
 Build for **Bootstrap 5**:
 
-	npm run build5
+```shell
+npm run build5
+```
 
 Publish to NPM registry:
 
-	npm publish
+```shell
+npm publish
+```
